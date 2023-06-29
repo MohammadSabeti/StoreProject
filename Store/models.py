@@ -93,5 +93,18 @@ class OrderApp(models.Model):
         return "{} سفارش به نام {} برای کالای {}".format(self.sell_count, self.customer, self.product)
 
 
+class Payment(models.Model):
+    class Meta:
+        verbose_name = 'پرداخت'
+        verbose_name_plural = 'پرداخت'
 
-# TODO : Complete this
+    customer = models.ForeignKey('Customer', on_delete=models.CASCADE, verbose_name='کاربر')
+    amount = models.PositiveIntegerField('مبلغ')
+    transaction_time = models.DateTimeField('زمان تراکنش', auto_now_add=True)
+    transaction_code = models.CharField('رسید تراکنش', max_length=30)
+
+    def get_amount_display(self):
+        return '{:,} تومان'.format(self.amount)
+
+    def __str__(self):
+        return '{:20,} تومان افزایش اعتبار برای {}'.format(self.amount, self.customer)
