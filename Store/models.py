@@ -77,3 +77,34 @@ class Product(models.Model):
         if self.ProductStock == 0:
             self.ProductStatus = Product.NotAvailable
         self.save()
+
+
+class OrderApp(models.Model):
+    class Meta:
+        verbose_name = 'سفارشات '
+        verbose_name_plural = 'سفارشات'
+
+    product = models.ForeignKey('Product', on_delete=models.PROTECT, verbose_name='کالا')
+    customer = models.ForeignKey('Customer', on_delete=models.PROTECT, verbose_name='خریدار')
+    sell_count = models.IntegerField('تعداد خرید')
+    order_time = models.DateTimeField('تاریخ ثبت سفارش', auto_now_add=True)
+
+    def __str__(self):
+        return "{} سفارش به نام {} برای کالای {}".format(self.sell_count, self.customer, self.product)
+
+
+class Payment(models.Model):
+    class Meta:
+        verbose_name = 'پرداخت'
+        verbose_name_plural = 'پرداخت'
+
+    customer = models.ForeignKey('Customer', on_delete=models.CASCADE, verbose_name='کاربر')
+    amount = models.PositiveIntegerField('مبلغ')
+    transaction_time = models.DateTimeField('زمان تراکنش', auto_now_add=True)
+    transaction_code = models.CharField('رسید تراکنش', max_length=30)
+
+    def get_amount_display(self):
+        return '{:,} تومان'.format(self.amount)
+
+    def __str__(self):
+        return '{:20,} تومان افزایش اعتبار برای {}'.format(self.amount, self.customer)
