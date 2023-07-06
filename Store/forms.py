@@ -43,3 +43,9 @@ class MyUserForm(UserChangeForm):
         fields = ['first_name', 'last_name', 'email']
 
     password = None
+
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Customer
+        fields = ['mobile', 'gender', 'address', 'profile_image']
