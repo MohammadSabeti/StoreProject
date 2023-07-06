@@ -7,3 +7,5 @@ L
 Store/migrations/__init__.py,1\b\1b6eeab18ff89e633fcdbf3fae5770af9d24422c
 A
 Store/__init__.py,d\7\d77f87f85db57442a30f35ac2938b89bcd855ba0
+>
+Store/admin.py,a\d\adccf3fc154565de0b6d0280f0d367be5b426624
