@@ -36,3 +36,10 @@ class PaymentForm(forms.ModelForm):
         if code and amount:
             if int(code.split('-')[1]) != amount:
                 raise ValidationError('رسید و مبلغ تراکنش هم‌خوانی ندارند')
+
+
+class MyUserForm(UserChangeForm):
+    class Meta(UserChangeForm.Meta):
+        fields = ['first_name', 'last_name', 'email']
+
+    password = None
