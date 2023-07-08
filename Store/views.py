@@ -43,3 +43,13 @@ def product_details(request, product_id):
         else:
             return HttpResponseRedirect(reverse('Store:orderapp_details', kwargs={'orderapp_id': order.id}))
     return render(request, 'store/product_details.html', context)
+
+
+def orderapp_list(request):
+    orderapps = OrderApp.objects.filter(customer_id=request.user.customer).order_by('-order_time')
+    context = {
+        'orderapps': orderapps,
+        'date_now': datetime.now()
+
+    }
+    return render(request, 'store/orderapp_list.html', context)
