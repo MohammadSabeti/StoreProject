@@ -53,3 +53,12 @@ def orderapp_list(request):
 
     }
     return render(request, 'store/orderapp_list.html', context)
+
+
+def orderapp_details(request, orderapp_id):
+    orderapp = OrderApp.objects.get(pk=orderapp_id)
+    context = {
+        'orderapp': orderapp,
+        'date_now': datetime.now()
+    }
+    return render(request, 'store/orderapp_details.html', context)
