@@ -93,3 +93,13 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse('Store:login'))
+
+
+@login_required
+def profile_details(request):
+    customer = request.user.customer
+    context = {
+        'customer': customer,
+        'date_now': datetime.now()
+    }
+    return render(request, 'user/profile_details.html', context)
