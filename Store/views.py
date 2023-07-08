@@ -113,3 +113,22 @@ def payment_list(request):
         'date_now': datetime.now()
     }
     return render(request, 'user/payment_list.html', context)
+
+
+@login_required
+def payment_create(request):
+    if request.method == 'POST':
+        payment_form = PaymentForm(request.POST)
+        if payment_form.is_valid():
+            payment = payment_form.save(commit=False)
+            payment.profile = request.user.customer
+            payment.save()
+            request.user.customer.deposit(payment.amount)
+            return HttpResponseRedirect(reverse('Store:payment_list'))
+    else:
+        payment_form = PaymentForm()
+    context = {
+        'payment_form': payment_form,
+        'date_now': datetime.now()
+    }
+    return render(request, 'user/payment_create.html', context)
