@@ -62,3 +62,29 @@ def orderapp_details(request, orderapp_id):
         'date_now': datetime.now()
     }
     return render(request, 'store/orderapp_details.html', context)
+
+
+# INFO: user and accounts func
+
+def login_view(request):
+    next_url = request.GET.get('next')
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            # Successful login
+            login(request, user)
+            redirect_url = next_url if next_url else reverse('Store:product_list')
+            return HttpResponseRedirect(redirect_url)
+        else:
+            # undefined user or wrong password
+            context = {
+                'username': username,
+                'date_now': datetime.now(),
+                'error': 'کاربری با این مشخصات یافت نشد'
+
+            }
+    else:
+        context = {'date_now': datetime.now()}
+    return render(request, 'user/login.html', context)
