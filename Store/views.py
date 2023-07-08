@@ -132,3 +132,23 @@ def payment_create(request):
         'date_now': datetime.now()
     }
     return render(request, 'user/payment_create.html', context)
+
+
+@login_required
+def profile_edit(request):
+    if request.method == 'POST':
+        user_form = MyUserForm(request.POST, instance=request.user)
+        profile_form = ProfileForm(request.POST, files=request.FILES, instance=request.user.customer)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            return HttpResponseRedirect(reverse('Store:profile_details'))
+    else:
+        user_form = MyUserForm(instance=request.user)
+        profile_form = ProfileForm(instance=request.user.customer)
+    context = {
+        'user_form': user_form,
+        'profile_form': profile_form,
+        'date_now': datetime.now()
+    }
+    return render(request, 'user/profile_edit.html', context)
