@@ -88,3 +88,8 @@ def login_view(request):
     else:
         context = {'date_now': datetime.now()}
     return render(request, 'user/login.html', context)
+
+
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('Store:login'))
