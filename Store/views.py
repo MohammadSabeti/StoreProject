@@ -20,3 +20,11 @@ def product_list(request):
     }
     return render(request, 'store/product_list.html', context)
 
+
+def product_details(request, product_id):
+    product = Product.objects.get(pk=product_id)
+
+    context = {
+        'product': product,
+        'date_now': datetime.now()
+    }
