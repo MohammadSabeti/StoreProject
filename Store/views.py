@@ -103,3 +103,13 @@ def profile_details(request):
         'date_now': datetime.now()
     }
     return render(request, 'user/profile_details.html', context)
+
+
+@login_required
+def payment_list(request):
+    payments = Payment.objects.filter(customer=request.user.customer).order_by('-transaction_time')
+    context = {
+        'payments': payments,
+        'date_now': datetime.now()
+    }
+    return render(request, 'user/payment_list.html', context)
