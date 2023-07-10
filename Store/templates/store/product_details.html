@@ -1,0 +1,112 @@
+{% extends "store/_base_page.html" %}
+{% load static %}
+
+{% block title %}{{ product.ProductName }}{% endblock %}
+
+{% block toolbar_title %}
+<i class="fas fa-shopping-cart"></i>
+    {{ product.ProductName }}
+{% endblock %}
+
+{% block toolbar_buttons %}
+    <a class="btn btn-warning py-1 px-2" href="{% url "Store:product_list" %}">
+        <i class="fas fa-list"></i>
+        فهرست کالا ها
+    </a>
+{% endblock %}
+
+{% block main_content %}
+    <div class="row py-4">
+        <div class="col-8 item-details">
+            <div class="row px-4">
+                <div class="col-3">
+                    <small class="text-muted">
+                        نام محصول :
+                    </small>
+                </div>
+                <div class="col-9">
+                    {{ product.ProductName }}
+                </div>
+                <div class="w-100 my-1"></div>
+                <div class="col-3">
+                    <small class="text-muted">
+                        قیمت محصول :
+                    </small>
+                </div>
+                <div class="col-9">
+                    {{ product.get_price_display }}
+                </div>
+                <div class="w-100 my-1"></div>
+                <div class="col-3">
+                    <small class="text-muted">
+                        موجودی در انبار :
+                    </small>
+                </div>
+                <div class="col-9">
+                    {{ product.ProductStock }}
+                    تعداد
+                </div>
+                <div class="w-100 my-1"></div>
+                <div class="col-3">
+                    <small class="text-muted">
+                        شرح محصول:
+                    </small>
+                </div>
+                <div class="col-9 item-text-box">
+                    {{ product.ProductDescription }}
+                </div>
+                {% if product.ProductStatus == product.Available %}
+                <div class="col-5">
+                    <form action="" method="post" class="form-inline">
+                        {% csrf_token %}
+                        <select name="sell_count" class="form-control form-control-sm ml-2">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                        </select>
+                        <button type="submit" class="btn btn-xs btn-success my-1" href="#">
+                            خرید کالا
+                        </button>
+                    </form>
+                    </div>
+                {% endif %}
+                            {% if error %}
+                    <div class="w-100 my-1"></div>
+                    <span class="col-12 alert alert-danger align-items-baseline small p-2">
+                        <i class="fas fa-exclamation-circle"></i>
+                        {{ error }}
+                    </span>
+                {% endif %}
+            </div>
+        </div>
+        <div class="container col-4 text-center  ">
+            <div class="container-fluid btn-outline-secondary img-thumbnail  "
+              >
+            <img class="img-thumbnail col-6
+              col-6 text-center " src="{{ product.ProductImage.url }}"
+                 alt="{{ product.ProductName }}" style="padding: 0px;margin: 0px;">
+            <div class="col-6 text-center badge
+             {% if product.ProductStatus == product.Available %}
+             badge-success
+             {% else %}
+             badge-warning
+            {% endif %}" style="margin: 0px;">
+            {% if product.ProductStatus == product.Available %}
+                {{ product.get_price_display }}
+            {% else %}
+                {{ product.get_ProductStatus_display }}
+            {% endif %}
+            </div>
+        </div>
+        </div>
+
+    </div>
+
+{% endblock %}

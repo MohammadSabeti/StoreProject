@@ -1,0 +1,69 @@
+{% extends "store/_base_page.html" %}
+{% load static %}
+
+{% block title %}
+    فهرست کالا‌ها
+{% endblock %}
+
+{% block toolbar_title %}
+    فهرست کالا‌ها
+{% endblock %}
+
+{% block main_content %}
+    <div class="row">
+        <div class="col py-4 px-4">
+            {% if products %}
+                <div class="row px-3">
+                    {% for product in products %}
+                        <div class="col-3 px-2 py-2">
+                            <a href="{% url "Store:product_details" product_id=product.pk %}"
+                               class="product-box btn
+                                {% if product.ProductStatus != product.Available %}
+                                  btn-secondary
+                                {% else %}
+                                 btn-outline-dark
+                                {% endif %}">
+                                <span>
+                                    <img class="img-thumbnail"
+                                         src="{{ product.ProductImage.url }}"
+                                         style="width: 50px; height: 50px;"/></span>
+                                <br/>
+                                <span>{{ product.ProductName }}</span>
+                                <br/>
+
+                                <span class="product-status badge
+                                    {% if product.ProductStatus == product.Available %}
+                                        badge-success
+                                    {% else %}
+                                        badge-warning
+                                    {% endif %}">
+                                    {% if product.ProductStatus == product.Available %}
+                                        {{ product.get_price_display }}
+                                    {% else %}
+                                        {{ product.get_ProductStatus_display }}
+                                    {% endif %}
+                                </span>
+                            <div>
+                                {% if product.ProductStatus == product.Available and product.ProductStock > 5 %}
+
+                                    <span class="badge badge-danger">
+                                                                    {{ product.ProductStock }}
+                                                                    موجودی کالا
+                                                                    </span>
+                                {% endif %}
+                            </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="alert alert-danger">
+                    در حال حاضر هیچ کالایی برای نمایش وجود ندارد.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+
+

@@ -1,0 +1,66 @@
+{% extends "store/_base_page.html" %}
+{% load static %}
+{% load jalali_tags %}
+{% block title %}
+    سفارشات من
+{% endblock %}
+
+{% block toolbar_title %}
+    سفارشات من
+{% endblock %}
+
+
+{% block main_content %}
+    <div class="row">
+        <div class="col py-4 px-4">
+            {% if orderapps %}
+
+                <div class="alert alert-info">
+                    در حال حاضر
+                    {{ orderapps.count }}
+                    سفارش
+                    به نام خانم/آقا
+
+                    {{ user.get_full_name }}
+                    ثبت شده است .
+                </div>
+                <div class="row px-3">
+                    {% for orderapp in orderapps %}
+                        <div class="col-3 px-2 py-2">
+                            <a href="{% url "Store:orderapp_details" orderapp_id=orderapp.pk %}"
+                               class="showtime-box btn
+                                btn-outline-dark">
+                                <span>
+                                    <img class="img-thumbnail"
+                                         src="{{ orderapp.product.ProductImage.url }}"
+                                         style="width: 50px; height: 50px;"/></span>
+                                <br/>
+                                <span>{{ orderapp.product.ProductName }}</span>
+                                <br/>
+                                <span>{{ orderapp.product.get_price_display }}
+                                    </span>
+
+                                <br/>
+                                <span>{{ orderapp.sell_count }}                                     <b><i>قلم
+                                    </i></b></span>
+                                <br/>
+                                <span class="showtime-status badge badge-success">
+                                        {{ orderapp.order_time|to_jalali:'%A %m/%d ساعت %H:%M' }}
+                                </span>
+                                <div>
+                                </div>
+                            </a>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="alert alert-danger">
+                    در حال حاضر هیچ سفارشی برای نمایش وجود ندارد.
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+
+

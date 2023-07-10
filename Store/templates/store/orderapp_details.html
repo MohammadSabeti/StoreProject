@@ -1,0 +1,82 @@
+{% extends "store/_base_page.html" %}
+{% load static %}
+{% load jalali_tags %}
+
+{% block title %}
+    مشاهده سفارش
+{% endblock %}
+
+{% block toolbar_title %}
+    <i class="fas fa-shipping-fast"></i>
+    مشاهده سفارش
+{% endblock %}
+
+{% block toolbar_buttons %}
+    <a class="btn btn-warning py-1 px-2" href="{% url "Store:product_list" %}">
+        <i class="fas fa-list"></i>
+        فهرست کالا ها
+    </a>
+{% endblock %}
+
+{% block main_content %}
+    <div class="row py-3">
+        <div class="col-8 item-details">
+            <div class="row px-3">
+                <div class="col-3">
+                    <small class="text-muted">
+                        <i class="fas fa-clock"></i>
+                        زمان خرید:
+                    </small>
+                </div>
+                <div class="col-9">
+                    {{ orderapp.order_time|to_jalali:'%A %y/%m/%d ساعت %H:%M' }}
+                </div>
+                <div class="col-3">
+                    <small class="text-muted">
+                        <i class="fas fa-calculator"></i>
+                        تعداد خرید:
+                    </small>
+                </div>
+                <div class="col-2">
+                    {{ orderapp.sell_count }}
+                </div>
+                <div class="w-100 my-1"></div>
+                <div class="col-3">
+                    <small class="text-muted">
+                        <i class="fas fa-user-tie"></i>
+                        خریدار:
+                    </small>
+                </div>
+                <div class="col-9">
+                    {{ orderapp.customer }}
+                </div>
+                <div class="w-100 my-1"></div>
+                <div class="col-3">
+                    <small class="text-muted">
+                        <i class="fas fa-shopping-cart"></i>
+                        نام کالا:
+                    </small>
+                </div>
+                <div class="col-9">
+                    {{ orderapp.product.ProductName }}
+                </div>
+
+                <div class="w-100 my-1"></div>
+                <div class="col-12">
+                    <small class="text-muted">
+                        <p><i class="fas fa-handshake"></i>
+                            ممنون که فروشگاه ما را برای خرید انتخاب کردید .
+                        </p>
+                        <p>
+                            <i class="fas fa-award"></i>
+                            از اعتماد شما متشکریم</p>
+                    </small>
+                </div>
+            </div>
+        </div>
+        <div class="col-4 text-center">
+            <img class="img-thumbnail" src="{{ orderapp.product.ProductImage.url }}"
+                 alt="{{ orderapp.product.ProductName }}">
+        </div>
+    </div>
+{% endblock %}

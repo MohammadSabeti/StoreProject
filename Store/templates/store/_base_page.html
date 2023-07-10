@@ -1,0 +1,131 @@
+{% load static %}
+{% load jalali_tags %}
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+    {% block extra_headers %}{% endblock %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="{% static "store/css/bootstrap.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "store/css/font-awesome.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "store/css/main.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "user/css/user.css" %}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body dir="rtl">
+
+<div class="container-fluid col-md-12 col-lg-12 col-sm-12">
+
+    <div class="container-fluid ">
+        <div class="row align-items-center  " id="header">
+<div class="col-12 text-left">
+    <div>
+        <i class="far fa-calendar-alt"></i>
+
+        <small>
+            امروز :
+            {{ date_now|to_jalali:'%A %m/%d ساعت %H:%M' }}
+        </small>
+    </div>
+</div>
+            <div class="col-12 text-center align-text-top">
+
+                <h2>
+                    فروشگاه اینترنتی
+                </h2>
+            </div>
+
+        </div>
+        <div class="row align-items-center " id="toolbar">
+            <div class="col-6 container-fluid ">
+                <h4>
+                    {% block toolbar_title %}{% endblock %}
+                </h4>
+            </div>
+            <div class="col-6 text-left ">
+                {% block toolbar_buttons %}
+                    <a class="btn btn-light py-1 px-2" href="{% url "Store:product_list" %}">
+                        <i class="fas fa-shopping-cart"></i>
+                        کالا ها
+                    </a>
+                {% endblock %}
+
+
+                {% block user_button %}
+                    {% if user.is_authenticated %}
+                        <div class="dropdown">
+                            <a class="btn btn-primary dropdown-toggle py-1 px-2" id="user-button" href="#"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-user"></i>
+                                {{ user.get_full_name }}
+                            </a>
+                            <div class="dropdown-menu text-right" aria-labelledby="user-button" dir="rtl">
+                                <i class="fas fa-wallet"></i>
+                                <small>
+                                    اعتبار:
+                                    {{ user.customer.get_balance_display }}
+
+                                </small>
+                                </span>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{% url "Store:profile_details" %}">
+                                    <i class="fas fa-user-tie"></i>
+                                    ناحیه کاربری
+                                </a>
+                                <a class="dropdown-item" href="{% url "Store:orderapp_list" %}">
+                                    <i class="fas fa-truck"></i>
+                                    سفارشات من
+                                </a>
+                                <a class="dropdown-item" href="{% url "Store:payment_list" %}">
+                                    <i class="fas fa-receipt"></i>
+                                    پرداخت‌های من
+                                </a>
+                                <a class="dropdown-item" href="{% url "Store:logout" %}">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    خروج
+                                </a>
+                            </div>
+                        </div>
+                    {% else %}
+                        <a class="btn btn-primary py-1 px-2 mr-3" href="{% url "Store:login" %}">
+                            <i class="fas fa-sign-in-alt"></i>
+                            ورود
+                        </a>
+                    {% endif %}
+                {% endblock %}
+            </div>
+
+        </div>
+        {% block main_content %}{% endblock %}
+        <div class="row  align-items-center " id="footer">
+            <div class="col text-center container-fluid">
+            <span>
+                ما را در شبکه‌های اجتماعی دنبال کنید.
+
+                <a class="social-media-icon" href="https://facebook.com/#">
+                    <i class="fab fa-facebook"></i>
+                </a>
+                <a class="social-media-icon" href="https://twitter.com/#">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a class="social-media-icon" href="https://instagram.com/#">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a class="social-media-icon" href="https://telegram.org/#">
+                    <i class="fab fa-telegram-plane"></i>
+                </a>
+            </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="{% static "store/js/jquery-3.4.0.min.js" %}"></script>
+<script src="{% static "store/js/bootstrap.bundle.js" %}"></script>
+<script src="{% static "store/js/font-awesome.js" %}"></script>
+<script src="{% static "store/js/main.js" %}"></script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>
